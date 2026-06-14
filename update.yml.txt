@@ -1,0 +1,41 @@
+name: Update Data to Private Repo
+
+on:
+  schedule:
+    - cron: '*/15 * * * *' # গিটহাবের নিজস্ব ১৫ মিনিটের ক্রন
+  workflow_dispatch: # এটি বাইরের ওয়েবসাইট থেকে ট্রিগার করার জন্য প্রয়োজনীয়
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Public Repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install Dependencies
+        run: pip install firebase-admin
+
+      - name: Fetch Data from Firebase
+        env:
+          FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: python main.py
+
+      - name: Push to Private Repo
+        env:
+          PAT: ${{ secrets.MY_PAT_TOKEN }}
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          # ক্লোন করা এবং ফাইল পাঠানো
+          git clone https://x-access-token:${PAT}@github.com/api00007/ALL-ROUNDER.git temp_repo
+          cp livefy.json temp_repo/
+          cd temp_repo
+          git add livefy.json
+          git commit -m "Auto Update: $(date)" || exit 0
+          git push origin main
