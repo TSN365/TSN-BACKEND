@@ -17,9 +17,9 @@ def fetch_and_save():
     ref = db.reference('/')
     data = ref.get()
     # ফাইলের নাম ATV.json দেওয়া হয়েছে
-    with open('livefy.json', 'w', encoding='utf-8') as f:
+    with open('tsn.json', 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=4, ensure_ascii=False)
-    print("Success: livefy.json created")
+    print("Success: tsn.json created")
 
 if __name__ == "__main__":
     fetch_and_save()
