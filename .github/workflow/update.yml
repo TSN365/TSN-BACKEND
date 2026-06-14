@@ -34,8 +34,8 @@ jobs:
           git config --global user.name "GitHub Action"
           # ক্লোন করা এবং ফাইল পাঠানো
           git clone https://x-access-token:${PAT}@github.com/api00007/ALL-ROUNDER.git temp_repo
-          cp livefy.json temp_repo/
+          cp tsn.json temp_repo/
           cd temp_repo
-          git add livefy.json
+          git add tsn.json
           git commit -m "Auto Update: $(date)" || exit 0
           git push origin main
