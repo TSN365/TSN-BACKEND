@@ -16,7 +16,7 @@ if not firebase_admin._apps:
 def fetch_and_save():
     ref = db.reference('/')
     data = ref.get()
-    # ফাইলের নাম ATV.json দেওয়া হয়েছে
+    # file name tsn.json give 
     with open('tsn.json', 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=4, ensure_ascii=False)
     print("Success: tsn.json created")
